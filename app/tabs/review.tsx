@@ -3,8 +3,11 @@ import { AppHeader } from '../../src/components/AppHeader';
 import { KnowledgeListCard } from '../../src/components/KnowledgeListCard';
 import { colors } from '../../src/constants/colors';
 import { reviewKnowledgeItems } from '../../src/data/knowledgeData';
+import { useLearning } from '../../src/state/LearningContext';
 
 export default function ReviewScreen() {
+  const { isCompleted } = useLearning();
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <AppHeader title="복습" subtitle="잊기 전에 다시 보면 더 오래 기억할 수 있어요." />
@@ -18,12 +21,12 @@ export default function ReviewScreen() {
 
       <Text style={styles.sectionTitle}>3일 전 복습</Text>
       {reviewKnowledgeItems.threeDaysAgo.map((item) => (
-        <KnowledgeListCard key={item.id} item={item} completed />
+        <KnowledgeListCard key={item.id} item={item} completed={isCompleted(item.id)} />
       ))}
 
       <Text style={styles.sectionTitle}>7일 전 복습</Text>
       {reviewKnowledgeItems.sevenDaysAgo.map((item) => (
-        <KnowledgeListCard key={item.id} item={item} completed />
+        <KnowledgeListCard key={item.id} item={item} completed={isCompleted(item.id)} />
       ))}
     </ScrollView>
   );

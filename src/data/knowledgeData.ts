@@ -13,9 +13,10 @@ export const categories: KnowledgeCategory[] = [
 export const knowledgeItems: KnowledgeItem[] = [
   {
     id: 'interest-rate',
-    title: '금리는 왜 오르고 내릴까?',
+    title: '금리가 오르면 왜 내 월세까지 흔들릴까?',
     category: '경제',
-    summary: '금리는 돈을 빌리는 가격이다. 금리가 움직이면 대출, 저축, 소비, 투자가 함께 흔들린다.',
+    summary: '금리는 돈을 빌리는 가격이다. 이 숫자 하나가 대출 이자, 예금, 집값, 소비 심리까지 함께 흔든다.',
+    whyItMatters: '금리 뉴스를 이해하면 내 대출, 저축, 월세, 투자 판단이 왜 흔들리는지 한 번에 연결된다.',
     difficulty: '입문',
     estimatedMinutes: 3,
     cards: [
@@ -49,9 +50,10 @@ export const knowledgeItems: KnowledgeItem[] = [
   },
   {
     id: 'inflation',
-    title: '인플레이션은 왜 생길까?',
+    title: '월급은 그대로인데 왜 살 수 있는 게 줄어들까?',
     category: '경제',
-    summary: '인플레이션은 전반적인 물가가 지속적으로 오르는 현상이다. 돈의 구매력이 낮아진다는 뜻이기도 하다.',
+    summary: '인플레이션은 가격표가 올라가는 현상인 동시에, 같은 돈의 힘이 조용히 약해지는 현상이다.',
+    whyItMatters: '물가 상승을 이해하면 월급, 저축, 장보기, 금리 뉴스가 왜 내 생활비와 이어지는지 보인다.',
     difficulty: '입문',
     estimatedMinutes: 3,
     cards: [
@@ -85,9 +87,10 @@ export const knowledgeItems: KnowledgeItem[] = [
   },
   {
     id: 'ai-hallucination',
-    title: 'AI는 왜 그럴듯한 거짓말을 할까?',
+    title: 'AI는 왜 틀린 말을 자신 있게 할까?',
     category: 'AI/기술',
-    summary: '생성형 AI는 사실을 이해한다기보다 다음에 올 말을 예측한다. 그래서 틀린 내용을 자연스럽게 말할 수 있다.',
+    summary: 'AI는 답을 알고 말한다기보다 그럴듯한 문장을 이어간다. 그래서 틀린 내용도 자신 있게 보일 수 있다.',
+    whyItMatters: 'AI를 잘 쓰려면 답을 받는 법보다, 언제 의심하고 확인해야 하는지를 먼저 알아야 한다.',
     difficulty: '기초',
     estimatedMinutes: 3,
     cards: [
@@ -121,9 +124,10 @@ export const knowledgeItems: KnowledgeItem[] = [
   },
   {
     id: 'loss-aversion',
-    title: '사람은 왜 손실을 더 크게 느낄까?',
+    title: '왜 만 원을 버는 기쁨보다 잃는 아픔이 클까?',
     category: '심리',
-    summary: '손실회피는 같은 크기의 이익보다 손실을 더 강하게 느끼는 인간의 심리 경향이다.',
+    summary: '사람은 같은 금액이라도 얻을 때보다 잃을 때 더 크게 반응한다. 이 감각은 선택과 판단을 자주 흔든다.',
+    whyItMatters: '손실회피를 알면 투자, 소비, 협상에서 내가 왜 지나치게 방어적으로 변하는지 알아차릴 수 있다.',
     difficulty: '기초',
     estimatedMinutes: 3,
     cards: [
@@ -157,9 +161,10 @@ export const knowledgeItems: KnowledgeItem[] = [
   },
   {
     id: 'blue-sky',
-    title: '하늘은 왜 파랄까?',
+    title: '매일 보는 하늘은 왜 하필 파랄까?',
     category: '과학',
-    summary: '햇빛 속 여러 색 중 파란빛이 공기 분자에 더 잘 흩어져 우리 눈에 많이 들어오기 때문이다.',
+    summary: '하늘의 파란색은 그냥 배경색이 아니다. 햇빛과 공기 분자가 만들어내는 거대한 산란 효과다.',
+    whyItMatters: '평범한 풍경 하나가 과학으로 설명되는 순간, 세상을 보는 감각이 조금 달라진다.',
     difficulty: '입문',
     estimatedMinutes: 3,
     cards: [
@@ -193,9 +198,10 @@ export const knowledgeItems: KnowledgeItem[] = [
   },
   {
     id: 'roman-road',
-    title: '로마는 왜 도로를 중요하게 생각했을까?',
+    title: '로마는 왜 길을 까는 데 그렇게 진심이었을까?',
     category: '역사',
-    summary: '로마의 도로는 군대, 행정, 무역을 빠르게 연결하는 제국의 핵심 인프라였다.',
+    summary: '로마의 도로는 단순한 길이 아니라 군대, 세금, 명령, 무역을 움직이는 제국의 신경망이었다.',
+    whyItMatters: '길과 물류를 보면 권력과 경제가 어떻게 퍼지는지, 오늘날 도시와 플랫폼도 다르게 보인다.',
     difficulty: '기초',
     estimatedMinutes: 3,
     cards: [
@@ -229,9 +235,10 @@ export const knowledgeItems: KnowledgeItem[] = [
   },
   {
     id: 'jeonse-right',
-    title: '전세권과 확정일자는 뭐가 다를까?',
+    title: '내 전세보증금은 무엇으로 지킬 수 있을까?',
     category: '생활지식',
-    summary: '전세보증금을 지키기 위한 장치라는 점은 비슷하지만, 전세권과 확정일자는 성격과 절차가 다르다.',
+    summary: '전세권과 확정일자는 둘 다 보증금 보호와 관련 있지만, 작동 방식과 필요한 절차가 다르다.',
+    whyItMatters: '주거 계약은 큰돈이 걸린 선택이다. 기본 장치를 알면 계약서 앞에서 덜 막막해진다.',
     difficulty: '심화',
     estimatedMinutes: 3,
     cards: [
@@ -265,9 +272,10 @@ export const knowledgeItems: KnowledgeItem[] = [
   },
   {
     id: 'semiconductor-strategy',
-    title: '반도체는 왜 전략물자일까?',
+    title: 'AI 시대에 왜 작은 칩 하나가 국가 경쟁력이 될까?',
     category: 'AI/기술',
-    summary: '반도체는 스마트폰부터 AI, 자동차, 무기까지 현대 산업 전반을 움직이는 핵심 부품이다.',
+    summary: '반도체는 전자부품을 넘어 AI, 자동차, 데이터센터, 안보를 움직이는 현대 산업의 기반이다.',
+    whyItMatters: '반도체를 이해하면 AI 경쟁, 자동차 생산, 국가 안보 뉴스가 왜 한 줄로 이어지는지 보인다.',
     difficulty: '기초',
     estimatedMinutes: 3,
     cards: [
@@ -301,9 +309,10 @@ export const knowledgeItems: KnowledgeItem[] = [
   },
   {
     id: 'confirmation-bias',
-    title: '확증편향은 왜 위험할까?',
+    title: '나는 왜 믿고 싶은 정보만 더 잘 보일까?',
     category: '심리',
-    summary: '확증편향은 내가 믿고 싶은 정보만 더 쉽게 받아들이는 경향이다. 판단을 좁고 단단하게 만든다.',
+    summary: '확증편향은 내 생각과 맞는 정보는 크게 보고, 불편한 정보는 작게 보는 마음의 습관이다.',
+    whyItMatters: '확증편향을 알면 뉴스, 투자, 인간관계에서 내가 스스로 만든 필터를 조금 더 의심할 수 있다.',
     difficulty: '기초',
     estimatedMinutes: 3,
     cards: [
@@ -337,9 +346,10 @@ export const knowledgeItems: KnowledgeItem[] = [
   },
   {
     id: 'exchange-rate',
-    title: '환율이 오르면 내 생활엔 뭐가 바뀔까?',
+    title: '달러가 오르면 왜 내 장바구니가 비싸질까?',
     category: '경제',
-    summary: '원/달러 환율이 오르면 달러가 비싸지고 원화 가치는 상대적으로 낮아진다. 수입 물가와 해외 결제 비용에 영향을 준다.',
+    summary: '환율은 돈의 교환 비율이지만, 실제로는 기름값, 수입품, 해외여행, 직구 비용에 스며든다.',
+    whyItMatters: '환율을 알면 멀게 느껴지던 외환 뉴스가 내 카드값과 생활비로 이어지는 과정을 이해할 수 있다.',
     difficulty: '기초',
     estimatedMinutes: 3,
     cards: [

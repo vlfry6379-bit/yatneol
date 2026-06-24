@@ -1,16 +1,25 @@
+import { useMemo } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { AppHeader } from '../../src/components/AppHeader';
 import { CategoryChip } from '../../src/components/CategoryChip';
 import { colors } from '../../src/constants/colors';
-
-const stats = [
-  { label: '총 학습 개수', value: '12개' },
-  { label: '퀴즈 정답률', value: '83%' },
-  { label: '북마크 수', value: '4개' },
-  { label: '연속 학습일', value: '1일' }
-];
+import { useLearning } from '../../src/state/LearningContext';
 
 export default function MyScreen() {
+  const { bookmarkedIds, completedIds, quizResults } = useLearning();
+  const stats = useMemo(() => {
+    const answeredCount = Object.keys(quizResults).length;
+    const correctCount = Object.values(quizResults).filter((result) => result.isCorrect).length;
+    const accuracy = answeredCount === 0 ? 0 : Math.round((correctCount / answeredCount) * 100);
+
+    return [
+      { label: '총 학습 개수', value: `${completedIds.length}개` },
+      { label: '퀴즈 정답률', value: `${accuracy}%` },
+      { label: '북마크 수', value: `${bookmarkedIds.length}개` },
+      { label: '오늘 완료', value: `${completedIds.length}개` }
+    ];
+  }, [bookmarkedIds.length, completedIds.length, quizResults]);
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <AppHeader title="마이" subtitle="얕넓 학습 기록을 가볍게 확인해요." />

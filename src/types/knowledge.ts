@@ -24,6 +24,7 @@ export type KnowledgeItem = {
   title: string;
   category: KnowledgeCategory;
   summary: string;
+  whyItMatters: string;
   difficulty: string;
   estimatedMinutes: number;
   cards: KnowledgeCard[];

@@ -5,12 +5,13 @@ import { CategoryChip } from '../../src/components/CategoryChip';
 import { ProgressBar } from '../../src/components/ProgressBar';
 import { colors } from '../../src/constants/colors';
 import { findKnowledgeById } from '../../src/data/knowledgeData';
+import { useLearning } from '../../src/state/LearningContext';
 
 export default function KnowledgeDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const item = useMemo(() => (id ? findKnowledgeById(id) : undefined), [id]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [bookmarked, setBookmarked] = useState(false);
+  const { isBookmarked, toggleBookmark } = useLearning();
 
   if (!item) {
     return (
@@ -25,6 +26,7 @@ export default function KnowledgeDetailScreen() {
   }
 
   const currentCard = item.cards[currentIndex];
+  const bookmarked = isBookmarked(item.id);
   const isFirst = currentIndex === 0;
   const isLast = currentIndex === item.cards.length - 1;
 
@@ -33,12 +35,17 @@ export default function KnowledgeDetailScreen() {
       <View style={styles.headerCard}>
         <View style={styles.headerTop}>
           <CategoryChip label={item.category} />
-          <Pressable style={styles.bookmarkButton} onPress={() => setBookmarked((value) => !value)}>
+          <Pressable style={styles.bookmarkButton} onPress={() => toggleBookmark(item.id)}>
             <Text style={styles.bookmarkText}>{bookmarked ? '북마크됨' : '북마크'}</Text>
           </Pressable>
         </View>
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.summary}>{item.summary}</Text>
+      </View>
+
+      <View style={styles.whyBox}>
+        <Text style={styles.whyLabel}>왜 알아야 할까?</Text>
+        <Text style={styles.whyText}>{item.whyItMatters}</Text>
       </View>
 
       <View style={styles.progressWrap}>
@@ -142,6 +149,23 @@ const styles = StyleSheet.create({
   },
   summary: {
     color: colors.muted,
+    fontSize: 15,
+    lineHeight: 23
+  },
+  whyBox: {
+    backgroundColor: colors.primarySoft,
+    borderRadius: 8,
+    marginBottom: 18,
+    padding: 16
+  },
+  whyLabel: {
+    color: colors.primary,
+    fontSize: 13,
+    fontWeight: '900',
+    marginBottom: 7
+  },
+  whyText: {
+    color: colors.text,
     fontSize: 15,
     lineHeight: 23
   },

@@ -4,11 +4,14 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { QuizOption } from '../../src/components/QuizOption';
 import { colors } from '../../src/constants/colors';
 import { findKnowledgeById } from '../../src/data/knowledgeData';
+import { useLearning } from '../../src/state/LearningContext';
 
 export default function QuizScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const item = useMemo(() => (id ? findKnowledgeById(id) : undefined), [id]);
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const { markCompleted, quizResults, saveQuizResult } = useLearning();
+  const savedResult = item ? quizResults[item.id] : undefined;
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(savedResult?.selectedIndex ?? null);
 
   if (!item) {
     return (
@@ -24,6 +27,14 @@ export default function QuizScreen() {
 
   const isAnswered = selectedIndex !== null;
   const isCorrect = selectedIndex === item.quiz.answerIndex;
+
+  const handleSelect = (index: number) => {
+    const isCorrectAnswer = index === item.quiz.answerIndex;
+
+    setSelectedIndex(index);
+    saveQuizResult(item.id, { selectedIndex: index, isCorrect: isCorrectAnswer });
+    markCompleted(item.id);
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -45,7 +56,7 @@ export default function QuizScreen() {
               disabled={isAnswered}
               isCorrect={isAnswered && index === item.quiz.answerIndex}
               isWrong={isAnswered && selectedIndex === index && selectedIndex !== item.quiz.answerIndex}
-              onPress={() => setSelectedIndex(index)}
+              onPress={() => handleSelect(index)}
             />
           );
         })}

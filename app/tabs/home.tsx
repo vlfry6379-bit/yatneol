@@ -4,9 +4,11 @@ import { KnowledgeListCard } from '../../src/components/KnowledgeListCard';
 import { ProgressBar } from '../../src/components/ProgressBar';
 import { colors } from '../../src/constants/colors';
 import { todayKnowledgeItems } from '../../src/data/knowledgeData';
+import { useLearning } from '../../src/state/LearningContext';
 
 export default function HomeScreen() {
-  const completedCount = 0;
+  const { isCompleted } = useLearning();
+  const completedCount = todayKnowledgeItems.filter((item) => isCompleted(item.id)).length;
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -24,7 +26,7 @@ export default function HomeScreen() {
 
       <View style={styles.list}>
         {todayKnowledgeItems.map((item) => (
-          <KnowledgeListCard key={item.id} item={item} />
+          <KnowledgeListCard key={item.id} item={item} completed={isCompleted(item.id)} />
         ))}
       </View>
     </ScrollView>

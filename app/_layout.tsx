@@ -1,10 +1,11 @@
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { colors } from '../src/constants/colors';
+import { LearningProvider } from '../src/state/LearningContext';
 
 export default function RootLayout() {
   return (
-    <>
+    <LearningProvider>
       <StatusBar style="dark" />
       <Stack
         screenOptions={{
@@ -20,6 +21,6 @@ export default function RootLayout() {
         <Stack.Screen name="knowledge/[id]" options={{ title: '지식 카드' }} />
         <Stack.Screen name="quiz/[id]" options={{ title: '퀴즈' }} />
       </Stack>
-    </>
+    </LearningProvider>
   );
 }
