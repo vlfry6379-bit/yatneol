@@ -59,6 +59,7 @@ export default function KnowledgeDetailScreen() {
         <Text style={styles.cardStep}>카드 {currentIndex + 1}</Text>
         <Text style={styles.cardTitle}>{currentCard.title}</Text>
         <Text style={styles.cardBody}>{currentCard.body}</Text>
+        <Text style={styles.cardHint}>넘겨 읽으면서 개념이 생활과 어떻게 이어지는지 따라가보세요.</Text>
       </View>
 
       <View style={styles.actions}>
@@ -184,8 +185,7 @@ const styles = StyleSheet.create({
     borderColor: colors.border,
     borderRadius: 8,
     borderWidth: 1,
-    justifyContent: 'center',
-    minHeight: 300,
+    minHeight: 360,
     padding: 24
   },
   cardStep: {
@@ -196,16 +196,25 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     color: colors.text,
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: '900',
     letterSpacing: 0,
-    lineHeight: 32,
+    lineHeight: 31,
     marginBottom: 18
   },
   cardBody: {
     color: colors.text,
-    fontSize: 18,
-    lineHeight: 30
+    fontSize: 16,
+    lineHeight: 27
+  },
+  cardHint: {
+    borderTopColor: colors.border,
+    borderTopWidth: 1,
+    color: colors.muted,
+    fontSize: 13,
+    lineHeight: 20,
+    marginTop: 22,
+    paddingTop: 14
   },
   actions: {
     flexDirection: 'row',
