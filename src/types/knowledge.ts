@@ -19,6 +19,24 @@ export type KnowledgeQuiz = {
   explanation: string;
 };
 
+export type KnowledgeSourceRef = {
+  title: string;
+  url: string;
+  publisher?: string;
+  publishedAt?: string;
+  checkedAt?: string;
+};
+
+export type KnowledgeProductionMeta = {
+  rawTopic?: string;
+  sourceNotes?: string;
+  rewriteNotes?: string;
+  factCheckStatus?: 'needs-review' | 'checked' | 'blocked';
+  copyrightStatus?: 'rewritten' | 'needs-review' | 'blocked';
+  createdAt?: string;
+  updatedAt?: string;
+};
+
 export type KnowledgeItem = {
   id: string;
   title: string;
@@ -29,4 +47,7 @@ export type KnowledgeItem = {
   estimatedMinutes: number;
   cards: KnowledgeCard[];
   quiz: KnowledgeQuiz;
+  status?: 'draft' | 'review' | 'published';
+  sourceRefs?: KnowledgeSourceRef[];
+  production?: KnowledgeProductionMeta;
 };

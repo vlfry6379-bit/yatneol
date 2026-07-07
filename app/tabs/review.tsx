@@ -7,25 +7,64 @@ import { knowledgeItems } from '../../src/data/knowledgeData';
 import { useLearning } from '../../src/state/LearningContext';
 import type { KnowledgeItem } from '../../src/types/knowledge';
 
+type ReviewStage = {
+  day: number;
+  label: string;
+};
+
 type ReviewItem = {
   item: KnowledgeItem;
   completedAt: string;
+  nextReviewAt: Date;
+  stageLabel: string;
+  isDue: boolean;
 };
 
-function formatDate(value: string) {
-  const date = new Date(value);
+const REVIEW_STAGES: ReviewStage[] = [
+  { day: 1, label: '1차 복습' },
+  { day: 3, label: '2차 복습' },
+  { day: 7, label: '장기 복습' }
+];
+const DAY_MS = 24 * 60 * 60 * 1000;
 
-  if (Number.isNaN(date.getTime())) {
-    return '최근 학습';
+function startOfDay(date: Date) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+}
+
+function formatReviewDate(date: Date) {
+  return `${date.getMonth() + 1}월 ${date.getDate()}일`;
+}
+
+function buildReviewPlan(item: KnowledgeItem, completedAt: string, today: Date): ReviewItem | null {
+  const completedDate = new Date(completedAt);
+
+  if (Number.isNaN(completedDate.getTime())) {
+    return null;
   }
 
-  return `${date.getMonth() + 1}월 ${date.getDate()}일 학습`;
+  const completedDay = startOfDay(completedDate);
+  const todayDay = startOfDay(today);
+  const elapsedDays = Math.max(0, Math.floor((todayDay.getTime() - completedDay.getTime()) / DAY_MS));
+  const nextStage = REVIEW_STAGES.find((stage) => elapsedDays < stage.day) || REVIEW_STAGES[REVIEW_STAGES.length - 1];
+  const dueStage = [...REVIEW_STAGES].reverse().find((stage) => elapsedDays >= stage.day);
+  const stage = dueStage || nextStage;
+  const nextReviewAt = new Date(completedDay.getTime() + stage.day * DAY_MS);
+
+  return {
+    item,
+    completedAt,
+    nextReviewAt,
+    stageLabel: stage.label,
+    isDue: todayDay.getTime() >= nextReviewAt.getTime()
+  };
 }
 
 export default function ReviewScreen() {
   const { completedAtById, completedIds, isCompleted } = useLearning();
 
   const reviewItems = useMemo<ReviewItem[]>(() => {
+    const today = new Date();
+
     return completedIds
       .map((id) => {
         const item = knowledgeItems.find((knowledgeItem) => knowledgeItem.id === id);
@@ -34,31 +73,23 @@ export default function ReviewScreen() {
           return null;
         }
 
-        return {
-          item,
-          completedAt: completedAtById[id] || ''
-        };
+        return buildReviewPlan(item, completedAtById[id] || '', today);
       })
       .filter((reviewItem): reviewItem is ReviewItem => Boolean(reviewItem))
-      .sort((a, b) => {
-        const aTime = new Date(a.completedAt).getTime() || 0;
-        const bTime = new Date(b.completedAt).getTime() || 0;
-
-        return bTime - aTime;
-      });
+      .sort((a, b) => a.nextReviewAt.getTime() - b.nextReviewAt.getTime());
   }, [completedAtById, completedIds]);
 
-  const recentItems = reviewItems.slice(0, 3);
-  const revisitItems = reviewItems.slice(3);
+  const dueItems = reviewItems.filter((reviewItem) => reviewItem.isDue);
+  const upcomingItems = reviewItems.filter((reviewItem) => !reviewItem.isDue);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <AppHeader title="복습" subtitle="내가 완료한 지식을 다시 꺼내볼 수 있어요." />
+      <AppHeader title="복습" subtitle="잊기 전에 다시 보면 더 오래 기억할 수 있어요." />
 
       <View style={styles.infoBox}>
-        <Text style={styles.infoTitle}>실제 학습 이력 기반</Text>
+        <Text style={styles.infoTitle}>1일, 3일, 7일 복습 리듬</Text>
         <Text style={styles.infoText}>
-          퀴즈를 완료한 지식이 이곳에 쌓입니다. 아직은 날짜별 복습 알고리즘 대신 최근 완료 순서로 보여줘요.
+          퀴즈를 완료한 지식은 완료일을 기준으로 1일 뒤, 3일 뒤, 7일 뒤에 다시 볼 수 있게 정리돼요.
         </Text>
       </View>
 
@@ -66,20 +97,24 @@ export default function ReviewScreen() {
         <Text style={styles.emptyText}>아직 복습할 지식이 없어요. 홈에서 지식 하나를 완료해보세요.</Text>
       ) : (
         <>
-          <Text style={styles.sectionTitle}>최근 완료한 지식</Text>
-          {recentItems.map(({ item, completedAt }) => (
-            <View key={item.id} style={styles.reviewCardWrap}>
-              <Text style={styles.reviewMeta}>{formatDate(completedAt)}</Text>
-              <KnowledgeListCard item={item} completed={isCompleted(item.id)} />
-            </View>
-          ))}
+          <Text style={styles.sectionTitle}>오늘 복습할 지식</Text>
+          {dueItems.length > 0 ? (
+            dueItems.map(({ item, nextReviewAt, stageLabel }) => (
+              <View key={item.id} style={styles.reviewCardWrap}>
+                <Text style={styles.reviewMeta}>{stageLabel} · {formatReviewDate(nextReviewAt)} 예정</Text>
+                <KnowledgeListCard item={item} completed={isCompleted(item.id)} />
+              </View>
+            ))
+          ) : (
+            <Text style={styles.emptyText}>오늘은 예정된 복습이 없어요.</Text>
+          )}
 
-          {revisitItems.length > 0 ? (
+          {upcomingItems.length > 0 ? (
             <>
-              <Text style={styles.sectionTitle}>다시 볼 지식</Text>
-              {revisitItems.map(({ item, completedAt }) => (
+              <Text style={styles.sectionTitle}>앞으로 복습할 지식</Text>
+              {upcomingItems.map(({ item, nextReviewAt, stageLabel }) => (
                 <View key={item.id} style={styles.reviewCardWrap}>
-                  <Text style={styles.reviewMeta}>{formatDate(completedAt)}</Text>
+                  <Text style={styles.reviewMeta}>{stageLabel} · {formatReviewDate(nextReviewAt)} 예정</Text>
                   <KnowledgeListCard item={item} completed={isCompleted(item.id)} />
                 </View>
               ))}
@@ -140,6 +175,7 @@ const styles = StyleSheet.create({
     color: colors.muted,
     fontSize: 14,
     lineHeight: 22,
+    marginBottom: 16,
     padding: 18
   }
 });

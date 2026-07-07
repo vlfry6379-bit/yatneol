@@ -1,0 +1,61 @@
+{
+  "id": "sample-topic-id",
+  "status": "draft",
+  "title": "사용자가 궁금해할 질문형 제목",
+  "category": "경제",
+  "summary": "앱 목록에 노출될 한 줄 요약입니다.",
+  "whyItMatters": "왜 지금 이 내용을 알아야 하는지 생활/뉴스/선택과 연결합니다.",
+  "difficulty": "입문",
+  "estimatedMinutes": 3,
+  "cards": [
+    {
+      "title": "카드 1 제목",
+      "body": "개념을 일상 언어로 풀어 씁니다."
+    },
+    {
+      "title": "카드 2 제목",
+      "body": "원리나 배경을 짧게 설명합니다."
+    },
+    {
+      "title": "카드 3 제목",
+      "body": "사용자 생활이나 세상 이슈와 연결합니다."
+    },
+    {
+      "title": "카드 4 제목",
+      "body": "오해하기 쉬운 점이나 확인해야 할 기준을 정리합니다."
+    },
+    {
+      "title": "핵심 한 문장",
+      "body": "사용자가 머릿속에 가져갈 마지막 문장입니다."
+    }
+  ],
+  "quiz": {
+    "question": "이 지식을 이해했는지 확인하는 질문",
+    "options": [
+      "오답 선택지 1",
+      "정답 선택지",
+      "오답 선택지 2",
+      "오답 선택지 3"
+    ],
+    "answerIndex": 1,
+    "explanation": "정답 이유를 짧고 명확하게 설명합니다."
+  },
+  "sourceRefs": [
+    {
+      "title": "공식 자료 또는 참고 자료 제목",
+      "url": "https://example.com/source",
+      "publisher": "기관/매체명",
+      "publishedAt": "2026-07-07",
+      "checkedAt": "2026-07-07"
+    }
+  ],
+  "production": {
+    "rawTopic": "원천 기사/논문/보고서에서 뽑은 최초 주제",
+    "sourceNotes": "원천자료에서 확인한 핵심 사실 메모. 문장 복제 금지.",
+    "rewriteNotes": "얕넓식으로 바꾸며 선택한 관점/비유/제외한 내용",
+    "factCheckStatus": "needs-review",
+    "copyrightStatus": "rewritten",
+    "createdAt": "2026-07-07",
+    "updatedAt": "2026-07-07"
+  }
+}

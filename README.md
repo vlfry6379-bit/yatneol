@@ -61,6 +61,25 @@ Perplexity의 뉴스 카드/Discover 경험에서 받은 자극처럼, 얕넓도
 - "환율이란 무엇인가?"보다 "환율이 오르면 왜 내 장바구니가 비싸질까?"
 - "AI 환각 현상"보다 "AI는 왜 틀린 말을 자신 있게 할까?"
 
+
+## 콘텐츠 제작 작업공간
+
+콘텐츠 제작 시간을 줄이기 위해 앱 코드와 별도의 원천 작업공간을 둔다.
+
+- 템플릿: `content/knowledge/_template.json`
+- 샘플: `content/knowledge/ai-chip-competition.json`
+
+새 주제를 카드로 만들 때는 템플릿을 복사해 아래 순서로 채운다.
+
+1. `rawTopic`에 원천 주제나 기사/논문에서 출발한 아이디어를 적는다.
+2. `sourceRefs`에 공식 자료, 논문, 보고서, 참고 링크를 남긴다.
+3. `sourceNotes`에는 확인한 사실만 메모하고 원문 문장을 복제하지 않는다.
+4. `title`, `summary`, `whyItMatters`, `cards`, `quiz`는 얕넓 문체로 새로 쓴다.
+5. 검수 전에는 `status: "draft"`, `factCheckStatus: "needs-review"` 상태로 둔다.
+6. 앱에 실제 반영할 때는 검수된 JSON 내용을 `src/data/knowledgeData.ts` 또는 추후 DB/Supabase로 옮긴다.
+
+현재 단계에서는 JSON 파일을 콘텐츠 제작/검수용 원천으로 사용하고, 앱 런타임 데이터는 기존 `knowledgeData.ts`를 유지한다. 이후 콘텐츠가 늘어나면 JSON을 자동으로 앱 데이터로 변환하는 스크립트나 Supabase 연결로 확장한다.
+
 ## 개발 진행 큰 흐름
 
 앞으로의 수정과 추가는 아래 순서를 큰 틀로 따른다.
