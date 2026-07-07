@@ -2,11 +2,21 @@ import { useMemo } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { AppHeader } from '../../src/components/AppHeader';
 import { CategoryChip } from '../../src/components/CategoryChip';
+import { KnowledgeListCard } from '../../src/components/KnowledgeListCard';
 import { colors } from '../../src/constants/colors';
+import { knowledgeItems } from '../../src/data/knowledgeData';
 import { useLearning } from '../../src/state/LearningContext';
+import type { KnowledgeItem } from '../../src/types/knowledge';
+
+function findItemsByIds(ids: string[]): KnowledgeItem[] {
+  return ids
+    .map((id) => knowledgeItems.find((item) => item.id === id))
+    .filter((item): item is KnowledgeItem => Boolean(item));
+}
 
 export default function MyScreen() {
   const { bookmarkedIds, completedIds, quizResults } = useLearning();
+
   const stats = useMemo(() => {
     const answeredCount = Object.keys(quizResults).length;
     const correctCount = Object.values(quizResults).filter((result) => result.isCorrect).length;
@@ -20,6 +30,16 @@ export default function MyScreen() {
     ];
   }, [bookmarkedIds.length, completedIds.length, quizResults]);
 
+  const completedItems = useMemo(
+    () => findItemsByIds(completedIds).reverse(),
+    [completedIds]
+  );
+
+  const bookmarkedItems = useMemo(
+    () => findItemsByIds(bookmarkedIds).reverse(),
+    [bookmarkedIds]
+  );
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <AppHeader title="마이" subtitle="얕넓 학습 기록을 가볍게 확인해요." />
@@ -31,6 +51,30 @@ export default function MyScreen() {
             <Text style={styles.statLabel}>{stat.label}</Text>
           </View>
         ))}
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>최근 학습</Text>
+        {completedItems.length > 0 ? (
+          completedItems.map((item) => <KnowledgeListCard key={item.id} item={item} completed />)
+        ) : (
+          <Text style={styles.emptyText}>아직 완료한 지식이 없어요.</Text>
+        )}
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>북마크</Text>
+        {bookmarkedItems.length > 0 ? (
+          bookmarkedItems.map((item) => (
+            <KnowledgeListCard
+              key={item.id}
+              item={item}
+              completed={completedIds.includes(item.id)}
+            />
+          ))
+        ) : (
+          <Text style={styles.emptyText}>다시 보고 싶은 지식을 북마크해보세요.</Text>
+        )}
       </View>
 
       <View style={styles.card}>
@@ -92,11 +136,25 @@ const styles = StyleSheet.create({
     marginBottom: 14,
     padding: 18
   },
+  section: {
+    marginBottom: 12
+  },
   sectionTitle: {
     color: colors.text,
     fontSize: 17,
     fontWeight: '800',
     marginBottom: 12
+  },
+  emptyText: {
+    backgroundColor: colors.card,
+    borderColor: colors.border,
+    borderRadius: 8,
+    borderWidth: 1,
+    color: colors.muted,
+    fontSize: 14,
+    lineHeight: 22,
+    marginBottom: 14,
+    padding: 18
   },
   chips: {
     flexDirection: 'row',

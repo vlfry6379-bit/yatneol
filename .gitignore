@@ -7,3 +7,4 @@ yarn-error.*
 .env
 .env.local
 .DS_Store
+expo-web*.log
